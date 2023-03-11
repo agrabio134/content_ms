@@ -9,19 +9,22 @@
 </head>
 
 <body>
+<a href="/cms/logout">Logout</a>
+
     <!-- get all contents and foreach -->
     <?php foreach ($contents as $content) : ?>
         <div>
             <h1><?php echo $content['title']; ?></h1>
-            <p><?php echo $content['content']; ?></p>
+            <p><?php echo $content['description']; ?></p>
             <p><?php echo $content['date']; ?></p>
             <p><?php echo $content['time']; ?></p>
             <p><?php echo $content['category']; ?></p>
             <p>
-                <img src="../../media/Announcements/<?php echo $content['image']; ?>" alt="<?php echo $content['image']; ?> " />
+                <img src="../../media/content/<?php echo $content['media']; ?>" alt="<?php echo $content['media']; ?> " />
             </p>
-            <a href="/cms/edit_content?id=<?php echo $content['id']; ?>">Edit</a>
-            <a href="/cms/delete_content?id=<?php echo $content['id']; ?>">Delete</a>
+            <a href="../routes.php?request=edit?id=<?php echo $content['id'];?>">Edit</a>
+            <!-- archive -->
+            <a href="../routes.php?request=archive&id=<?php echo $content['id'];?>">Archive</a>
         </div>
     <?php endforeach; ?>
 

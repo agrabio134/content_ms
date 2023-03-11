@@ -16,7 +16,7 @@
           //get the users id from the session
 
         session_start();
-        $user_id = $_SESSION['user_id'];
+        $user_id = $_SESSION['id'];
 
         
           $title = $_POST['title'];
@@ -28,11 +28,11 @@
           $media = $_FILES['media']['name'];
           $file_extension = pathinfo($_FILES['media']['name'], PATHINFO_EXTENSION);
           $filename = "$media";
-          $target = "media/Announcements/" . $filename;
+          $target = "media/content/" . $filename;
 
           //add folder if it doesn't exist
-            if (!file_exists('media/Announcements')) {
-                mkdir('media/Announcements', 0777, true);
+            if (!file_exists('media/content')) {
+                mkdir('media/content', 0777, true);
             }
       
       
@@ -44,10 +44,13 @@
             $result = $stmt->fetch();
       
             if ($result) {
-              //delete the uploaded file if it already exists in the database
+              //delete the uploaded file once if it already exists in the database
+              
               unlink($target);
               http_response_code(400);
               echo "File already uploaded";
+              header('Location: /cms/content');
+
               return false;
             } else {
               $query = "INSERT INTO cms_contents (title, category, description, date, time, media, user_id) VALUES (?,?,?,?,?,?,?)";
@@ -61,8 +64,34 @@
             echo "There was an error uploading the file.";
           }
           echo "File uploaded successfully";
-        //   header('Location: /cms/index');
+          header('Location: /cms/content');
         }
+
+        // archive content change to 1 or 0
+        public function archive_post($id)
+        {
+            $sql = "UPDATE cms_contents SET archived = 1 WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$id]);
+            // header('Location: /cms/content');
+            exit;
+        }
+
+
+       
+        // delete content
+
+
+        public function delete_post($id)
+        {
+            $sql = "DELETE FROM cms_contents WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$id]);
+            header('Location: /cms/content');
+            exit;
+        }
+
+
        
 
 

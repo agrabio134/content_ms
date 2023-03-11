@@ -59,7 +59,9 @@
   <!-- logout -->
   <a href="/cms/logout">Logout</a>
 <h1>Create Content</h1>
-<form action="/cms/events/addEvent" method="post" enctype="multipart/form-data">
+<form action="../routes.php?request=create_post" method="post" enctype="multipart/form-data">
+    <!-- user id  -->
+    <input type="hidden" name="user_id" value="<?php echo $_SESSION['id'];?>">
     <label for="title">Title</label>
     <input type="text" name="title" id="title" placeholder="Title" required>
 

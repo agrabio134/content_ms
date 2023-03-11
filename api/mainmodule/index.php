@@ -50,6 +50,12 @@ class ViewController
             exit;
         }
 
+        //get the users id from the session
+        $user_id = $_SESSION['id'];
+        
+
+
+
    
 
         require_once 'view/content/create_content.php';
@@ -67,11 +73,15 @@ class ViewController
             exit;
         }
 
+
+        //select both cms_content
         $sql = "SELECT * FROM cms_contents";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         $contents = $stmt->fetchAll();
+
+      
 
 
         require_once 'view/dashboard/content.php';

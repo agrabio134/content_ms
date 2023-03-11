@@ -50,9 +50,25 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case 'register':
                 echo json_encode($auth->create_user($data));
                 break;
-            case 'createpost':
+            case 'create_post':
                 echo json_encode($content->create_post($data));
                 break;
+            case 'update':
+                // echo json_encode($content->update_post($data));
+                echo "hello";
+                break;
+
+            case 'archive':
+                // echo "hello";
+                echo json_encode($content->archive_post($data));
+                // refresh page after archive
+                header('Location: /cms/content');
+                break;
+
+            case 'delete_post':
+                echo json_encode($content->delete_post($data));
+                break;
+
             default:
                 echo json_encode(array('error' => 'request not found'));
                 break;
@@ -62,4 +78,3 @@ switch ($_SERVER['REQUEST_METHOD']) {
         echo json_encode(array('error' => 'failed request'));
         break;
 }
-?>
