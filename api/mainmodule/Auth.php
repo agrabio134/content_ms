@@ -101,18 +101,6 @@ class Auth
         $user = $stmt->fetch();
 
 
-        // if ($user) {
-  
-            // header('Location: /cms/index');
-        //     return true;
-        //   } else {
-        //     echo 'Error: Invalid email address or password';
-        //     return false;
-        //   }
-
-
-        //check if the session is set
-
 
 
         try {

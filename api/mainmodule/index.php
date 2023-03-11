@@ -37,7 +37,7 @@ class ViewController
     }
 
     //create content
-    public function content()
+    public function createcontent()
     {
         header('Content-Type: text/html; charset=utf-8');
         ini_set('display_errors', 1);
@@ -58,6 +58,28 @@ class ViewController
 
 
         require_once 'view/content/create_content.php';
+    }
+    public function content()
+    {
+        header('Content-Type: text/html; charset=utf-8');
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+        session_start();
+        // if not logged in, redirect to login page
+        if (!isset($_SESSION['id'])) {
+            header('Location: /cms/login');
+            exit;
+        }
+
+        $sql = "SELECT * FROM cms_contents";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $contents = $stmt->fetchAll();
+
+
+        require_once 'view/dashboard/content.php';
     }
 }
 $app = new ViewController();

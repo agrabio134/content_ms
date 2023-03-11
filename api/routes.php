@@ -57,18 +57,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 echo json_encode(array('error' => 'request not found'));
                 break;
         }
-        break;
-    // case 'GET':
-    //     switch ($req[0]){
-    //         case 'login':
-    //             echo json_encode($index->LoginView());
-    //             break;
-    //         case 'content':
-    //             echo json_encode($index->ContentView());
-    //             break;
-    //     }
-        
-      
+        break;      
     default:
         echo json_encode(array('error' => 'failed request'));
         break;
