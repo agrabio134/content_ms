@@ -1,0 +1,6 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILE} !-d
+    RewriteCond %{REQUEST_FILE} !-f
+    RewriteRule ^(.*)$ routes.php?request=$1 [L,QSA]
+</IfModule>
