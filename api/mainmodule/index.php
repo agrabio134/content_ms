@@ -50,12 +50,7 @@ class ViewController
             exit;
         }
 
-        $sql = "SELECT * FROM cms_contents";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-        $contents = $stmt->fetchAll();
-
+   
 
         require_once 'view/content/create_content.php';
     }
