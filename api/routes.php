@@ -57,13 +57,22 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 // echo json_encode($content->update_post($data));
                 echo "hello";
                 break;
-
             case 'archive':
-                // echo "hello";
-                echo json_encode($content->archive_post($data));
-                // refresh page after archive
-                header('Location: /cms/content');
+                if (isset($_GET['id'])) {
+                    $id = $_GET['id'];
+                    $content->archive_post($id);
+
+
+
+
+                   
+
+
+                    // refresh page after archive
+                    // header('Location: /cms/content');
+                }
                 break;
+
 
             case 'delete_post':
                 echo json_encode($content->delete_post($data));
@@ -73,7 +82,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 echo json_encode(array('error' => 'request not found'));
                 break;
         }
-        break;      
+        break;
     default:
         echo json_encode(array('error' => 'failed request'));
         break;

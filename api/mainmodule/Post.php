@@ -34,6 +34,13 @@
             if (!file_exists('media/content')) {
                 mkdir('media/content', 0777, true);
             }
+
+            // if no date and time is set, set it to null
+            if ($date == "" && $time == "") {
+                $date = null;
+                $time = null;
+            }
+           
       
       
           if (move_uploaded_file($_FILES['media']['tmp_name'], $target)) {
@@ -70,10 +77,23 @@
         // archive content change to 1 or 0
         public function archive_post($id)
         {
-            $sql = "UPDATE cms_contents SET archived = 1 WHERE id = ?";
+
+
+
+            $sql = "SELECT * FROM cms_contents WHERE id = ?";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$id]);
-            // header('Location: /cms/content');
+            $result = $stmt->fetch();
+            $archive = $result['is_archive'];
+
+            if ($archive == 0) {
+                $sql = "UPDATE cms_contents SET is_archive = 1 WHERE id = ?";
+            } else {
+                $sql = "UPDATE cms_contents SET is_archive = 0 WHERE id = ?";
+            }
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$id]);
+            header('Location: /cms/content');
             exit;
         }
 

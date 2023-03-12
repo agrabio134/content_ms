@@ -26,7 +26,7 @@ class ViewController
         }
 
 
-        require_once 'view/login.php';
+        require_once './../view/login.php';
     }
     public function logout()
     {
@@ -52,13 +52,16 @@ class ViewController
 
         //get the users id from the session
         $user_id = $_SESSION['id'];
+
+        //if no inputs, set null
+
         
 
 
 
    
 
-        require_once 'view/content/create_content.php';
+        require_once './../view/content/create_content.php';
     }
     public function content()
     {
@@ -75,8 +78,10 @@ class ViewController
 
 
         //select both cms_content
-        $sql = "SELECT * FROM cms_contents";
+        // $sql = "SELECT * FROM cms_contents WHERE is_archive = 0";
 
+        //if category is announcements in table filter display date and time table
+        $sql = "SELECT * FROM cms_contents WHERE is_archive = 0 ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         $contents = $stmt->fetchAll();
@@ -84,7 +89,7 @@ class ViewController
       
 
 
-        require_once 'view/dashboard/content.php';
+        require_once './../view/dashboard/content.php';
     }
 }
 $app = new ViewController();
