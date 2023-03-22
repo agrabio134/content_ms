@@ -56,20 +56,21 @@
 </style>
 </head>
 <body>
-  <!-- logout -->
-  <a href="/cms/logout">Logout</a>
-<h1>Create Content</h1>
+<?php include_once "./../view/dashboard/navigation/nav.php"; ?>
+
+<?php include_once "content_nav.php"; ?>
+
+
+<h1>Create Events</h1>
 <form action="../routes.php?request=create_post" method="post" enctype="multipart/form-data">
     <!-- user id  -->
     <input type="hidden" name="user_id" value="<?php echo $_SESSION['id'];?>">
     <label for="title">Title</label>
     <input type="text" name="title" id="title" placeholder="Title" required>
 
-    <label for="category">Category</label>
-    <select name="category" id="category">
-        <option value="Events">Events</option>
-        <option value="Announcements">Announcements</option>
-    </select>
+    <!-- <label for="category">Category</label> -->
+    <input type="text" id="category" name="category" value="Events" hidden>
+
 
     <label for="description">Description</label>
     <textarea name="description" id="description" cols="30" rows="10" placeholder="Description"></textarea>
@@ -84,7 +85,7 @@
     <input type="submit" value="Submit">
 </form>
 
-<script>
+<!-- <script>
     // add event listener to category dropdown
     document.getElementById("category").addEventListener("change", function() {
         var selectedCategory = this.value;
@@ -100,7 +101,7 @@
             timeInput.style.display = "none";
         }
     });
-</script>
+</script> -->
 
 </body>
 </html>

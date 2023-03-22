@@ -47,54 +47,54 @@ class Auth
         return $jwt;
     }
     // create user
-    public function create_user($received_data)
-    {
-        $fname = $received_data->fname;
-        $lname = $received_data->lname;
-        $email = $received_data->email;
-        $contact_number = $received_data->contact_number;
-        $username = $received_data->username;
-        $password = $this->encrypt_password($received_data->password);
-        $role = $received_data->role;
-        $sql = "INSERT INTO cms_users (firstname, lastname, username, password, email, contact_number, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $this->pdo->prepare($sql);
-        try {
-            $stmt->execute([$fname, $lname, $username, $password, $email, $contact_number, $role]);
-            if ($stmt->rowCount() > 0) {
-                $code = 200;
-                $remarks = "success";
-                $message = "User created successfully.";
-                $payload = null;
-            } else {
-                $code = 500;
-                $remarks = "failed";
-                $message = "Failed to create user.";
-                $payload = null;
-            }
-        } catch (\PDOException $e) {
-            $code = 500;
-            $remarks = "failed";
-            $message = "Failed to create user.";
-            $payload = null;
-        }
-        return $this->gm->returnPayload($payload, $remarks, $message, $code);
-    }
+    // public function create_user($received_data)
+    // {
+    //     $fname = $received_data->fname;
+    //     $lname = $received_data->lname;
+    //     $email = $received_data->email;
+    //     $contact_number = $received_data->contact_number;
+    //     $username = $received_data->username;
+    //     $password = $this->encrypt_password($received_data->password);
+    //     $role = $received_data->role;
+    //     $sql = "INSERT INTO ems_credentials * VALUES (?, ?, ?, ?, ?, ?, ?)";
+    //     $stmt = $this->pdo->prepare($sql);
+    //     try {
+    //         $stmt->execute([$fname, $lname, $username, $password, $email, $contact_number, $role]);
+    //         if ($stmt->rowCount() > 0) {
+    //             $code = 200;
+    //             $remarks = "success";
+    //             $message = "User created successfully.";
+    //             $payload = null;
+    //         } else {
+    //             $code = 500;
+    //             $remarks = "failed";
+    //             $message = "Failed to create user.";
+    //             $payload = null;
+    //         }
+    //     } catch (\PDOException $e) {
+    //         $code = 500;
+    //         $remarks = "failed";
+    //         $message = "Failed to create user.";
+    //         $payload = null;
+    //     }
+    //     return $this->gm->returnPayload($payload, $remarks, $message, $code);
+    // }
 
     public function login($received_data)
     {
-        if (!isset($received_data->email) || !isset($received_data->password)) {
+        if (!isset($received_data->username) || !isset($received_data->password)) {
             $code = 400;
             $remarks = "failed";
-            $message = "Email or password is missing.";
+            $message = "Username or password is missing.";
             $payload = null;
 
             return $this->gm->returnPayload($payload, $remarks, $message, $code);
         }
 
-        $email = $received_data->email;
+        $username = $received_data->username;
         $pword = $received_data->password;
 
-        $sql = "SELECT * FROM cms_users WHERE email = ? ";
+        $sql = "SELECT * FROM ems_credentials WHERE username = ? ";
         $stmt = $this->pdo->prepare($sql);
         
 
@@ -104,7 +104,7 @@ class Auth
 
 
         try {
-            $stmt->execute([$email]);
+            $stmt->execute([$username]);
             if ($stmt->rowCount() > 0) {
                 $res = $stmt->fetchAll()[0];
                 if ($this->check_password($pword, $res['password'])) {

@@ -23,8 +23,8 @@ error_reporting(E_ALL);
 
 <form method="post"action="../routes.php?request=authenticate">
     <div>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+      <label for="username">Username:</label>
+      <input type="username" id="username" name="username" required>
     </div>
     <div>
       <label for="password">Password:</label>

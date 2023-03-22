@@ -60,7 +60,7 @@
 
               return false;
             } else {
-              $query = "INSERT INTO cms_contents (title, category, description, date, time, media, user_id) VALUES (?,?,?,?,?,?,?)";
+              $query = "INSERT INTO cms_contents (title, category, description, date, time, media, credentials_id) VALUES (?,?,?,?,?,?,?)";
               $stmt = $this->pdo->prepare($query);
               $stmt->execute([$title, $category, $description, $date, $time, $media, $user_id]);
               http_response_code(200);
@@ -84,12 +84,34 @@
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$id]);
             $result = $stmt->fetch();
-            $archive = $result['is_archive'];
+            $archive = $result['is_archived'];
 
             if ($archive == 0) {
-                $sql = "UPDATE cms_contents SET is_archive = 1 WHERE id = ?";
+                $sql = "UPDATE cms_contents SET is_archived = 1 WHERE id = ?";
             } else {
-                $sql = "UPDATE cms_contents SET is_archive = 0 WHERE id = ?";
+                $sql = "UPDATE cms_contents SET is_archived = 0 WHERE id = ?";
+            }
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$id]);
+            header('Location: /cms/content');
+            exit;
+        }
+
+        public function edit_post($id)
+        {
+
+
+
+            $sql = "SELECT * FROM cms_contents WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$id]);
+            $result = $stmt->fetch();
+            $archive = $result['is_archived'];
+
+            if ($archive == 0) {
+                $sql = "UPDATE cms_contents SET is_archived = 1 WHERE id = ?";
+            } else {
+                $sql = "UPDATE cms_contents SET is_archived = 0 WHERE id = ?";
             }
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$id]);

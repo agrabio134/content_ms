@@ -8,7 +8,7 @@ date_default_timezone_set("Asia/Manila");
 set_time_limit(1000);
 
 define("SERVER", "localhost");
-define("DBASE", "crystal_sky_db");
+define("DBASE", "db_crystal_sky");
 define("USER", "root");
 define("PASSWORD", "");
 

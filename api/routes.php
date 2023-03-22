@@ -6,6 +6,7 @@ require_once "./mainmodule/Auth.php";
 require_once "./mainmodule/Global.php";
 require_once "./mainmodule/Index.php";
 
+
 $db = new Connection();
 $pdo = $db->connect();
 $global = new GlobalMethods($pdo);
@@ -27,49 +28,44 @@ switch ($_SERVER['REQUEST_METHOD']) {
             case 'authenticate':
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $data = (object) [
-                        'email' => $_POST['email'],
+                        'username' => $_POST['username'],
                         'password' => $_POST['password'],
                     ];
                     echo json_encode($auth->login($data));
                 }
 
-                $sql = "SELECT * FROM cms_users WHERE email = ? ";
+                $sql = "SELECT * FROM ems_credentials WHERE username = ? ";
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute([$data->email]);
+                $stmt->execute([$data->username]);
                 $user = $stmt->fetch();
 
                 session_start();
                 $_SESSION['id'] = $user['id'];
-                $_SESSION['email'] = $user['email'];
+                $_SESSION['username'] = $user['username'];
                 echo 'Success: You are now logged in';
                 echo "session id: " . $_SESSION['id'];
 
-                header('Location: /cms/content');
+                header('Location: /cms/index');
 
                 break;
-            case 'register':
-                echo json_encode($auth->create_user($data));
-                break;
+
             case 'create_post':
                 echo json_encode($content->create_post($data));
                 break;
-            case 'update':
-                // echo json_encode($content->update_post($data));
-                echo "hello";
+            case 'edit':
+                if (isset($_GET['id'])) {
+                    $id = $_GET['id'];
+
+                    echo "hello";
+                    $index->editcontent($id);
+
+                    // include
+                }
                 break;
             case 'archive':
                 if (isset($_GET['id'])) {
                     $id = $_GET['id'];
                     $content->archive_post($id);
-
-
-
-
-                   
-
-
-                    // refresh page after archive
-                    // header('Location: /cms/content');
                 }
                 break;
 
@@ -83,6 +79,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 break;
         }
         break;
+
+
     default:
         echo json_encode(array('error' => 'failed request'));
         break;
