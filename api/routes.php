@@ -48,6 +48,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 header('Location: /cms/index');
 
                 break;
+             
+            case 'upload_image':
+                echo json_encode($content->upload_image($data));
+                break;
 
             case 'create_post':
                 echo json_encode($content->create_post($data));

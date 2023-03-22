@@ -46,6 +46,15 @@ class ViewController
         $count_total = $stmt->fetchColumn();
 
 
+        $total_imgs = "SELECT COUNT(*) as total FROM cms_gallery";
+        $stmt = $this->pdo->prepare($total_imgs);
+        $stmt->execute();
+
+        // $contents = $stmt->fetchAll();
+        $count_imgs = $stmt->fetchColumn();
+
+
+
 
 
         // echo $count;

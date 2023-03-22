@@ -25,6 +25,10 @@
     <h4>Total Post</h4>
     <?php echo $count_total; ?>
     </div>
+
+    <h4>Total Images</h4>
+    <?php echo $count_imgs; ?>
+    </div>
     
 </body>
 

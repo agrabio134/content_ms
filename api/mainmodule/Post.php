@@ -10,6 +10,49 @@
         }
 
 
+        public function upload_image($received_data)
+        {
+
+          session_start();
+          $user_id = $_SESSION['id'];
+
+          if (isset($_POST['submit'])){
+
+            foreach($_FILES['images']['tmp_name'] as $img => $tmp_name){
+
+              $file_name = $_FILES['images']['name'][$img];
+              $file_tmp = $_FILES['images']['tmp_name'][$img];
+
+              // check if file is an image
+
+              $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+              $allowed_extension = array("jpg", "jpeg", "png", "gif");
+
+              if(in_array($file_extension, $allowed_extension)){
+
+                $target = "media/uploads/" ;
+                $upload_file = $target . basename($file_name);
+                move_uploaded_file($file_tmp, $upload_file);
+
+                // insert to SQL
+
+                $sql = "INSERT INTO cms_gallery (credentials_id, media) VALUES (?,?)";
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute([$user_id, $file_name]);
+
+                http_response_code(200);
+                echo "File uploaded successfully";
+                header('Location: /cms/index');
+
+
+
+              }
+            }
+          }
+
+        }
+
+
 
         public function create_post($received_data)
         {
@@ -99,9 +142,6 @@
 
         public function edit_post($id)
         {
-
-
-
             $sql = "SELECT * FROM cms_contents WHERE id = ?";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$id]);

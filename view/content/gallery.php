@@ -12,7 +12,10 @@
 
 <?php include_once "content_nav.php"; ?>
 
-<h1>This is gallery</h1>
+<form action="../routes.php?request=upload_image" method="post"  enctype="multipart/form-data">
+    <input type="file" name="images[]" multiple>
+    <input type="submit" name ="submit" value="Upload">
+</form>
     
 </body>
 </html>
